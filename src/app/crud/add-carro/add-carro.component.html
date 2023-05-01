@@ -1,0 +1,74 @@
+<div class="container p-3"> 
+    <div class="card" *ngIf="carro.responsavel > 1">
+        <div class="card-header">
+            <h3><i class="bi bi-car-front-fill"></i> Anunciar um novo carro</h3> 
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label" for="carroNome">Nome</label>
+                        <input [(ngModel)]="carro.nome" [class]="classeCarroNome" type="text" name="carroNome" id="carroNome">
+                        <div class="invalid-feedback">Preencha o nome do Carro.</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="carroModelo">Modelo</label>
+                        <input [(ngModel)]="carro.modelo" [class]="classeCarroModelo" type="text" name="carroModelo" id="carroModelo">
+                        <div class="invalid-feedback">Preencha o modelo do carro.</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label" for="carroMarca">Marca</label>
+                        <input [(ngModel)]="carro.marca" [class]="classeCarroMarca" type="text" name="carroMarca" id="carroMarca">
+                        <div class="invalid-feedback">Preencha a marca do carro.</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="carroAno">Ano</label>
+                        <input [(ngModel)]="carro.ano" [class]="classeCarroAno" type="number" name="carroAno" id="carroAno">
+                        <div class="invalid-feedback">Preencha o ano do Carro.</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label" for="carroKm">Quilometragem</label>
+                        <input [(ngModel)]="carro.km" [class]="classeCarroKm" type="number" name="carroKm" id="carroKm">
+                        <div class="invalid-feedback">Preencha a quilometragem do carro.</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="carroFotos">Link de uma foto do carro</label>
+                        <input [(ngModel)]="carro.fotos" [class]="classeCarroFotos" type="text" name="carroFotos" id="carroFotos">
+                        <div class="invalid-feedback">Preencha um link com uma foto do carro.</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label" for="carroPlaca">Placa (a placa não será divulgada publicamente)</label>
+                        <input [(ngModel)]="carro.placa" [class]="classeCarroPlaca" type="text" name="carroPlaca" id="carroPlaca">
+                        <div class="invalid-feedback">Preencha a placa do carro.</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="carroStatus">Status</label>
+                        <select [(ngModel)]="carro.status" [class]="classeCarroStatus" name="carroStatus" id="carroStatus">
+                            <option *ngFor="let opcao of opcoes" [value]="opcao">{{opcao}}</option>
+                        </select>
+                        <div class="invalid-feedback">Selecione uma opção.</div>
+                    </div>
+                </div>
+            </form>
+       
+            <button routerLink="/listar" type="button" class="btn btn-secondary m-3"><i class="bi bi-skip-backward-circle"></i> Voltar</button>
+            <button (click)="gravar()" class="btn btn-success m-3"><i class="bi bi-plus-circle"></i> Gravar</button>
+            <div *ngIf="resposta" class="alert alert-success" role="alert">
+                <i class="bi bi-car-front-fill"></i> Carro adicionado com sucesso.
+            </div>
+        </div>
+      </div>    
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>

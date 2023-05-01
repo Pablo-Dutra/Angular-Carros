@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="card mb-3 m-3" *ngIf="mostraProfile" style="max-width: 800px;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
+            <img src="{{avatar_url}}" class="img-fluid rounded-start avatar" >
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-header">{{nome}}</h5>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><i class="bi bi-file-earmark-person-fill"></i> {{ bio }} </li>
+            <li class="list-group-item"><i class="bi bi-browser-chrome"></i> Página <a href="{{blog}}">{{ blog }} </a></li>
+            <li class="list-group-item"><i class="bi bi-building"></i> Empresa:  {{ company }} </li>
+            <li class="list-group-item"><i class="bi bi-person-vcard"></i> ID: {{ id }} </li>
+            <li class="list-group-item"><i class="bi bi-geo-alt-fill"></i> Localidade: {{ location }} </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>      
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>

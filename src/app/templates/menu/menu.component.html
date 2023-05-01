@@ -1,0 +1,27 @@
+<nav class="navbar navbar-expand-md bg-dark navbar-dark dropdown-menu-end">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <i class="bi bi-car-front-fill"></i> Dutra Motors
+      </a>
+      <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#paginas" aria-expanded="false">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="navbar-collapse collapse" id="paginas">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a routerLink="/" routerLinkActive="active" class="nav-link"><i class="bi bi-house-door"></i> Home</a></li>
+        </ul>                
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a routerLink="/listar" routerLinkActive="active" class="nav-link"><i class="bi bi-list-stars"></i> Listar Carros</a></li>
+          <li class="nav-item"><a routerLink="/adicionar" routerLinkActive="active" class="nav-link"><i class="bi bi-plus-square"></i> Adicionar Carro</a></li>
+          <li class="nav-item"><a routerLink="/profile" routerLinkActive="active" class="nav-link"><i class="bi bi-person-square"></i> Meu Profile</a></li>  
+          <li class="nav-item"><a routerLink="/adm" routerLinkActive="active" class="nav-link"><i class="bi bi-unlock-fill"></i> Administrativo</a></li>                   
+        </ul>
+        <form class="d-flex" *ngIf="!logado">
+          <button (click)="loginGitHub()" class="btn btn-outline-success"><i class="bi bi-github"></i> Fazer Login</button>
+        </form>
+        <form class="d-flex" *ngIf="logado">
+          <button (click)="loginGitHub()" class="btn btn-outline-warning"><i class="bi bi-github"></i> {{nomeUsuario}} </button>
+        </form>
+      </div>
+    </div>
+  </nav>

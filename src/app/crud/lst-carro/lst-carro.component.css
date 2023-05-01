@@ -1,0 +1,30 @@
+.imagem-vendedor {
+    width: 150px;
+    height: 150px;
+}
+.imagem-logo {
+    width: 100px;
+    height: 100px;
+}
+
+.div-imagem-carro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.imagem-carro {
+    width: 75%;
+    height: auto;
+}
+
+.imagem-thumbs {
+    width: auto;
+    height: 150px;
+}
+.div-thumbs {
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+    height: 400px; 
+    overflow: hidden;
+}

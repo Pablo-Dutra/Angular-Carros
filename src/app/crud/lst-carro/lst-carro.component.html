@@ -1,0 +1,282 @@
+<div class="container-flex">
+  <div *ngIf="todosCarros?.length != 0" class="row p-3">
+    <div id='topo' class="input-group mb-2">
+        <button type="button" class="btn btn-secondary" (click)="scrollToSection('#tabela')"><i class="bi bi-file-earmark-spreadsheet"></i> TAB</button>
+        <button routerLink="/adicionar" type="button" class="btn btn-dark"><i class="bi bi-plus-circle"></i> ADD </button>
+        <input type="text" aria-describedby="btnPesquisaCarro" [(ngModel)]="filtro" (ngModelChange)="filtrar()" class="form-control" placeholder="Buscar um carro...">
+    </div>
+    
+    <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let carro of carrosComFiltro">
+      <div class="card mb-3">
+        <div class="card-header" data-toggle="tooltip" data-placement="top" title="{{ carro.info }}">
+          <i class="bi bi-car-front-fill"></i> <strong> {{ carro.nome }}</strong>
+        </div>
+        <div class="col div-thumbs">
+          <img class="imagem-thumbs" src="{{ carro.fotos}}" alt="foto">
+        </div>
+        <div class="col">
+          <ul class="list-group ">
+            <li class="list-group-item"><i class="bi bi-tools"></i> Marca: <strong>{{ carro.marca }}</strong></li>
+            <li class="list-group-item"><i class="bi bi-calendar3"></i> Ano: <strong>{{ carro.ano }}</strong></li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <button type="button" data-toggle="tooltip" data-placement="top" title="Exibir informações do vendedor" class="btn btn-sm btn-outline-secondary p-1 m-1" data-bs-toggle="modal" 
+              (click)="openModalVendedor(vendedor,carro)" data-bs-target="#vendedor"><i class="bi bi-person-lines-fill"></i> Vendedor</button>
+          <button type="button" data-toggle="tooltip" data-placement="top" title="Exibir informação do carro" class="btn btn-sm btn-outline-dark p-1 m-1" data-bs-toggle="modal" 
+              (click)="openModalInfo(info,carro)" data-bs-target="#info"><i class="bi bi-info-circle"></i> Informações</button>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <button type="button" class="btn btn-outline-secondary" (click)="scrollToSection('#topo')"><i class="bi bi-box-arrow-in-up"></i> Voltar ao topo </button>    
+  </div>
+  </div>
+
+  <div class="container-fluid">
+  <p class="lead"><i class="bi bi-car-front-fill"></i> <strong>Listagem dos veículos </strong> </p>
+  <table id="tabela" class="table table-bordered table-striped table-hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+    <thead>
+      <tr>
+        <th>Carro</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="todosCarros?.length != 0">
+      <tr *ngFor="let carro of todosCarros">
+        <td>
+          <div ngbDropdown container="body" class="d-inline-block">
+            <p id="dropdown1" ngbDropdownToggle>{{ carro.nome }} / {{ carro.marca }} #{{ carro.id }} 
+              <span *ngIf="carro.status == 'disponível'; else erro"><i class="bi bi-hand-thumbs-up" style="color: green"></i></span>
+              <ng-template #erro><i class="bi bi-hand-thumbs-down" style="color: red"></i></ng-template>
+            </p>
+            <div ngbDropdownMenu aria-labelledby="dropdown1">
+              <p href="#" ngbDropdownItem [class.disabled]="true" aria-disabled="true">Modelo: {{ carro.modelo }}</p>
+              <p href="#" ngbDropdownItem [class.disabled]="true" aria-disabled="true">Ano: {{ carro.ano }} </p>
+              <p href="#" ngbDropdownItem [class.disabled]="true" aria-disabled="true">Marca: {{ carro.marca }} </p>
+              <p href="#" ngbDropdownItem [class.disabled]="true" aria-disabled="true">Km: {{ carro.km }}</p>
+              <p href="#" ngbDropdownItem [class.disabled]="true" aria-disabled="true">Status: {{ carro.status }}</p>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div ngbDropdown container="body" class="d-inline-block">
+            <button type="button" class="btn btn-outline-secondary" id="dropdownBasic1" ngbDropdownToggle>
+              <i class="bi bi-gear"></i> Ações
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button ngbDropdownItem type="button" data-toggle="tooltip" data-placement="top" title="Exibir fotos do carro" class="btn btn-sm btn-outline-primary m-1" data-bs-toggle="modal" 
+               (click)="openModalFotos(fotos,carro)" data-bs-target="#fotos"><i class="bi bi-image"></i> Foto</button>
+              <button ngbDropdownItem  type="button" data-toggle="tooltip" data-placement="top" title="Exibir informação do carro" class="btn btn-sm btn-outline-dark m-1" data-bs-toggle="modal" 
+               (click)="openModalInfo(info,carro)" data-bs-target="#info"><i class="bi bi-info-circle"></i> Info</button>
+              <button ngbDropdownItem type="button" data-toggle="tooltip" data-placement="top" title="Exibir informações do vendedor" class="btn btn-sm btn-outline-secondary m-1" data-bs-toggle="modal" 
+               (click)="openModalVendedor(vendedor,carro)" data-bs-target="#vendedor"><i class="bi bi-person-lines-fill"></i> Vendedor</button>
+              <div class="dropdown-divider"></div>
+              <button ngbDropdownItem *ngIf="idUsuario == carro.responsavel" type="button" data-toggle="tooltip" data-placement="top" title="Editar este carro" class="btn btn-sm btn-outline-success m-1" data-bs-toggle="modal"
+                (click)="openModalEdit(edit,carro)" data-bs-target="#edit"><i class="bi bi-pencil-fill"></i> Editar</button>
+              <button ngbDropdownItem *ngIf="idUsuario == carro.responsavel" type="button" data-toggle="tooltip" data-placement="top" title="Excluir este carro" class="btn btn-sm btn-outline-danger m-1" data-bs-toggle="modal"
+                (click)="openModalDelete(delete,carro)" data-bs-target="#delete"><i class="bi bi-trash3-fill"></i> Excluir </button>
+
+            </div>  
+          </div>   
+        </td>        
+      </tr> 
+    </tbody>
+    <tbody *ngIf="todosCarros?.length == 0">
+      <tr>
+        <td colspan="9" class="no-data-available">Não foram encontrados registros.</td>
+      </tr>
+    <tbody>
+  </table>
+  <hr>
+</div>
+<br>
+<br>
+<br>
+
+<!-- Modal Excluir -->
+<ng-template #delete let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h1 class="modal-title fs-5" id="delete">Excluir carro</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+        (click)="modal.dismiss('Você fechou a janela.')"></button>
+    </div>
+    <div class="modal-body">
+      Você realmente quer <strong>excluir o carro permanentemente</strong>?
+      <hr><strong>Código:</strong> {{ carroExcluindo.id }}
+      <br><strong>Nome:</strong> {{ carroExcluindo.nome }}
+      <br><strong>Marca:</strong> {{ carroExcluindo.marca }}
+      <br><strong>Ano:</strong> {{ carroExcluindo.ano }}
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger close" data-bs-dismiss="modal"
+        (click)="modal.dismiss('Você clicou em cancelar.')"><i class="bi bi-x-circle"></i> Cancelar</button>
+      <button type="button" class="btn btn-success" (click)="modal.close('Você clicou em excluir.')"><i
+          class="bi bi-check-circle"></i> Excluir </button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Modal Editar -->
+<ng-template #edit let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h1 class="modal-title fs-5" id="edit">Editar carro</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+        (click)="modal.dismiss('Você fechou a janela.')"></button>
+    </div>
+    <div class="modal-body">
+
+      <div class="card">
+        <div class="card-body">
+          <form>
+            <div class="row">
+              <div class="col-md-6">
+                <label class="form-label" for="carroNome">Nome</label>
+                <input class="form-control" type="text" name="carroNome" id="carroNome" [(ngModel)]="carroEditando.nome">
+                <div class="invalid-feedback">Preencha o nome do carro.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="carroModelo">Modelo</label>
+                <input class="form-control" type="text" name="carroModelo" id="carroModelo" [(ngModel)]="carroEditando.modelo">
+                <div class="invalid-feedback">Preencha o modelo do carro.</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label class="form-label" for="carroMarca">Marca</label>
+                <input class="form-control" type="text" name="carroMarca" id="carroMarca" [(ngModel)]="carroEditando.marca">
+                <div class="invalid-feedback">Preencha a marca do carro.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="carroAno">Ano</label>
+                <input class="form-control" type="number" name="carroAno" id="carroAno" [(ngModel)]="carroEditando.ano">
+                <div class="invalid-feedback">Preencha o ano do carro.</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label class="form-label" for="carroKm">Quilometragem</label>
+                <input class="form-control" type="number" name="carroKm" id="carroKm" [(ngModel)]="carroEditando.km">
+                <div class="invalid-feedback">Preencha a quilometragem do carro.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="carroFotos">Link de uma foto do carro</label>
+                <input class="form-control" type="text" name="carroFotos" id="carroFotos" [(ngModel)]="carroEditando.fotos">
+                <div class="invalid-feedback">Preencha um link com uma foto do carro.</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label class="form-label" for="carroPlaca">Placa</label>
+                <input class="form-control" type="text" name="carroPlaca" id="carroPlaca" [(ngModel)]="carroEditando.placa">
+                <div class="invalid-feedback">Preencha a placa do carro.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="carroStatus">Status</label>
+                <select class="form-control" name="carroStatus" id="carroStatus" [(ngModel)]="carroEditando.status">
+                  <option *ngFor="let opcao of opcoes" [value]="opcao">{{opcao}}</option>
+                </select>
+                <div class="invalid-feedback">Selecione uma opção.</div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger close" data-bs-dismiss="modal"
+        (click)="modal.dismiss('Você clicou em cancelar.')"><i class="bi bi-x-circle"></i> Cancelar</button>
+      <button type="button" class="btn btn-success" (click)="modal.close('Você clicou em salvar.')"><i
+          class="bi bi-check-circle"></i> Salvar </button>
+    </div>
+  </div>
+</ng-template>
+
+
+<!-- Modal Fotos -->
+<ng-template #fotos let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h1 class="modal-title fs-5" id="info">Fotos do carro</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+        (click)="modal.dismiss('Você fechou a janela.')"></button>
+    </div>
+    <div class="modal-body">
+
+      <div class="card">
+        <div class="card-body">
+          Foto do <strong> {{ carroEditando.nome }} </strong>
+          <hr>
+          <div class="div-imagem-carro">
+            <img class="imagem-carro" src="{{ carroEditando.fotos }}" alt="Imagem carro">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success" (click)="modal.close('Você clicou em ok.')"><i class="bi bi-check-circle"></i> Ok </button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Modal Info -->
+<ng-template #info let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h1 class="modal-title fs-5" id="info">Info do carro</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+        (click)="modal.dismiss('Você fechou a janela.')"></button>
+    </div>
+    <div class="modal-body">
+
+      <div class="card">
+        <div class="card-body">
+          <div class="imagem-geral">
+            <img class="imagem-logo" src="{{ informacoesCarro.logo }}" alt="Imagem logo">
+          </div>
+          <hr><strong>Nome:</strong> {{ carroEditando.nome }}
+          <br><strong>Marca:</strong> {{ informacoesCarro.marca }}
+          <br><strong>Modelo:</strong> {{ informacoesCarro.modelo }}
+          <br><strong>Ano:</strong> {{ informacoesCarro.anoModelo }}
+          <br><strong>Combustível:</strong> {{ informacoesCarro.combustivel }}
+          <br><strong>Valor:</strong> {{ informacoesCarro.valor }}
+          <hr>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success" (click)="modal.close('Você clicou em ok.')"><i class="bi bi-check-circle"></i> Ok </button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Modal Vendedor-->
+<ng-template #vendedor let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h1 class="modal-title fs-5" id="info">Info do vendedor</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+        (click)="modal.dismiss('Você fechou a janela.')"></button>
+    </div>
+    <div class="modal-body">
+
+      <div class="card">
+        <div class="card-body">
+          ID do Vendedor: <strong>{{ this.carroEditando.responsavel }}</strong>
+          <hr>
+          <div class="imagem-geral">
+            <img class="imagem-vendedor" src="https://avatars.githubusercontent.com/u/{{carroEditando.responsavel}}" alt="Imagem externa">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success" (click)="modal.close('Você clicou em ok.')"><i class="bi bi-check-circle"></i> Ok </button>
+    </div>
+  </div>
+</ng-template>
+
+<br />
+<br />

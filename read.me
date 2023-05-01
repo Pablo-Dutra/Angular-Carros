@@ -1,0 +1,36 @@
+Criar o arquivo: 'certificate.cnf' com o conteúdo:
+
+[req]
+default_bits = 2048
+prompt = no
+default_md = sha256
+x509_extensions = v3_req
+distinguished_name = dn
+
+[dn]
+C = IN
+ST = India
+L = India
+O = My Organisation
+OU = My Organisational Unit
+emailAddress = email@domain.com
+CN = localhost
+
+[v3_req]
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = localhost
+
+# No terminal do Linux, executar:
+# openssl req -new -x509 -newkey rsa:2048 -sha256 -nodes -keyout localhost.key -days 3560 -out localhost.crt -config certificate.cnf
+
+Será gerado o arquivo: 'localhost.crt'
+
+Executar no windows o comando: mmc
+Arquivo / Adicionar Snap-ins / Certificados / Minha conta de usuário 
+
+Seguir os passos das imagens da pasta SSL
+
+Subir o sistema da seguinte forma: 
+# ng serve --ssl --ssl-cert C:\Users\pablo\OneDrive\htdocs\IFaulasPraticas\Seminario\carros\localhost.crt --ssl-key C:\Users\pablo\OneDrive\htdocs\IFaulasPraticas\Seminario\carros\localhost.key --host 0.0.0.0
