@@ -16,7 +16,6 @@ import { InicioComponent } from './templates/inicio/inicio.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileComponent } from './templates/profile/profile.component';
 import { AdmUsersComponent } from './templates/adm-users/adm-users.component';
-import { TestsComponent } from './templates/tests/tests.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +27,6 @@ import { TestsComponent } from './templates/tests/tests.component';
     InicioComponent,
     ProfileComponent,
     AdmUsersComponent,
-    TestsComponent,
   ],
   imports: [
     BrowserModule,

@@ -5,8 +5,6 @@ import { LstCarroComponent } from './crud/lst-carro/lst-carro.component';
 import { InicioComponent } from './templates/inicio/inicio.component';
 import { ProfileComponent } from './templates/profile/profile.component';
 import { AdmUsersComponent } from './templates/adm-users/adm-users.component';
-import { TestsComponent } from './templates/tests/tests.component';
-
 
 const routes: Routes = [
   { path: '', component: InicioComponent },
@@ -14,8 +12,6 @@ const routes: Routes = [
   { path: 'listar', component: LstCarroComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'adm', component: AdmUsersComponent },
-  { path: 'tests', component: TestsComponent },
-
 ];
 
 @NgModule({

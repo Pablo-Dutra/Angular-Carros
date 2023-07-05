@@ -30,7 +30,7 @@ export class AdmUsersComponent implements OnInit, OnDestroy {
   todosUsuarios: any = [];    
   idUsuario: null;
   isAdmin: boolean = false;
-  logs: any = null;
+  logs: any;
 
   public usuario: Usuario;
   public usuarioSelecionado: Usuario;
@@ -65,10 +65,6 @@ export class AdmUsersComponent implements OnInit, OnDestroy {
     this.httpUsuariosService.listarUsuarios().subscribe((response: any) => {
       this.todosUsuarios = response;
       this.dtTrigger.next('');   
-    });
-    this.httpUsuariosService.logs().subscribe((response: any) => {
-      this.logs = response; 
-      console.log(response);
     });
   }
 
